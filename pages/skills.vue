@@ -48,7 +48,7 @@ definePageMeta({
         <div class="opacity-0 absolute top-1/2 -left-1/2 md:-left-1/3 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-20 text-gray-700"
             v-gsap.to="{ opacity: 100, left: '50%', duration: 0.5 }">
             <h1 class="text-2xl md:text-5xl font-bold mb-10">What Can I Do?</h1>
-            <p class="text-sm md:text-md w-screen p-4 md:p-0 md:w-[500px]">
+            <p class="text-[10px] md:text-[12px] w-screen p-4 md:p-0 md:w-[500px]">
                 I specialize in creating dynamic and responsive web applications using modern technologies. My skills
                 include: <br>
 
@@ -64,7 +64,10 @@ definePageMeta({
                 - <b>Node.js & Express</b>: Building backend services and RESTful APIs with Node.js and Express. <br>
                 - <b>PHP & Laravel/CodeIgniter</b>: Developing robust and scalable backend systems using PHP frameworks
                 like Laravel and CodeIgniter. <br>
-                - <b>Database Management</b>: Working with SQL and NoSQL databases like MySQL, and PostgreSQL.
+                - <b>Golang</b>: Creating high-performance backend services and APIs using Go. <br>
+                - <b>API Development</b>: Creating RESTful APIs and integrating third-party services. <br>
+                - <b>Database Management</b>: Working with SQL and NoSQL databases like MySQL, and PostgreSQL. <br>
+                - <b>Cloud Management</b>: Managing cloud infrastructure and services on platforms like AWS and Azure.
                 <br>
                 - <b>Deployment</b>: Deploying applications on cloud platforms like Vercel. <br>
             </p>
