@@ -20,6 +20,11 @@ const menus = [
         to: 'https://github.com/dipaadipati',
         rotation: 'rotate-[-2deg]',
     },
+    {
+        text: 'My CV',
+        to: '/cv',
+        rotation: 'rotate-[5deg]',
+    },
     // {
     //     text: 'Credits',
     //     to: '/credits',

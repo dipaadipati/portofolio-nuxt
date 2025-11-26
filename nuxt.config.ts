@@ -10,4 +10,12 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
   ],
   css: [`assets/css/style.css`],
+  app: {
+    head: {
+      title: 'Adipati Rezkya Portfolio',
+      htmlAttrs: {
+        lang: 'en',
+      },
+    }
+  }
 })

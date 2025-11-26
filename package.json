@@ -10,6 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vue-pdf-viewer/annotation": "^1.2.0",
+    "@vue-pdf-viewer/viewer": "^3.4.0",
     "gsap": "^3.12.7",
     "nuxt": "^3.15.4",
     "vue": "latest",
