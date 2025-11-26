@@ -15,6 +15,11 @@ const menus = [
         to: '/skills',
         rotation: 'rotate-[-5deg]',
     },
+    {
+        text: 'My Github',
+        to: 'https://github.com/dipaadipati',
+        rotation: 'rotate-[-2deg]',
+    },
     // {
     //     text: 'Credits',
     //     to: '/credits',

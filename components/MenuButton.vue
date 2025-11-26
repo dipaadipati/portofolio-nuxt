@@ -23,7 +23,7 @@ const isHover = ref(false);
 
 <template>
     <NuxtLink class="relative cursor-default" v-gsap.add.from="{ opacity: 0, y: 50, duration: 0.3 }" draggable="false"
-        :class="rotation" @click="clickHandler()" :to="to">
+        :class="rotation" @click="clickHandler()" :to="to" :target="to.startsWith('http') ? '_blank' : ''">
         <div :class="isHover ? 'opacity-100' : 'opacity-0'"
             class="absolute -top-1 -right-1 rotate-[2deg] w-0 h-0 transition-all duration-300 animate-[getar_1s_linear_infinite_alternate]
                                         border-t-[50px] border-t-transparent border-r-[17em] border-r-pink-400 border-b-[5px] border-b-transparent">
