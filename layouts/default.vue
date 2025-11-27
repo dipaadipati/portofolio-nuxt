@@ -271,7 +271,7 @@ onUnmounted(() => {
                 </NuxtLink>
 
                 <!-- LinkedIn -->
-                <NuxtLink to="https://www.linkedin.com/in/adipati-r-9213a6134/" target="_blank" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 backdrop-blur-sm
+                <NuxtLink to="https://www.linkedin.com/in/adipati-rezkya/" target="_blank" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 backdrop-blur-sm
                        flex items-center justify-center text-white
                        hover:bg-blue-400 hover:scale-110 transition-all duration-300
                        border border-white/30">
