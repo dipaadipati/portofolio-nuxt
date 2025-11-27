@@ -1,3 +1,12 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: 'Adipati Rezkya Portfolio',
+  description: 'Portfolio website of Adipati Rezkya',
+  ogTitle: 'Adipati Rezkya Portfolio',
+  ogDescription: 'Portfolio website of Adipati Rezkya',
+})
+</script>
+
 <template>
   <div>
     <NuxtLayout>
