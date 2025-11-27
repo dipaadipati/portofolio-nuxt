@@ -28,6 +28,19 @@ const updateDateTime = () => {
     }
 };
 
+// Splash screen logic
+const showSplash = ref(false)
+
+onMounted(() => {
+    if (route.path === '/') {
+        showSplash.value = true
+    }
+})
+
+const onSplashComplete = () => {
+    showSplash.value = false
+}
+
 onMounted(() => {
     updateDateTime();
     intervalId = window.setInterval(updateDateTime, 1000);
@@ -41,8 +54,11 @@ onUnmounted(() => {
 </script>
 
 <template>
+    <!-- Splash Screen - Only on first visit -->
+    <ClientOnly>
+        <SplashScreen v-if="showSplash" @complete="onSplashComplete" />
+    </ClientOnly>
     <div class="w-screen h-screen bg-gradient-to-b from-green-400 to-blue-500">
-
         <!-- Background Enhancement Layers -->
         <div class="absolute inset-0 diagonal-grid pointer-events-none z-0"></div>
         <div class="absolute inset-0 scanlines pointer-events-none z-0"></div>
