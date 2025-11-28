@@ -267,7 +267,7 @@ onUnmounted(() => {
             <!-- Left: Navigation Hints -->
             <div class="text-[10px] md:text-xs lg:text-sm opacity-80 text-white pointer-events-auto">
                 © 2025 <b class="font-bold">M. Adipati Rezkya</b>. All rights reserved.
-                <br class="hidden md:block" />
+                <br class="block" />
                 <span class="text-[8px] md:text-[10px] opacity-60">
                     Design inspired by <i>Persona 3 Reload</i> Game UI
                 </span>

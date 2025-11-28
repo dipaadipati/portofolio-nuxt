@@ -72,8 +72,8 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        <div class="flex items-center p-3 h-30 z-20">
-            <NuxtLink to="/" class="relative z-20" draggable="false">
+        <div class="flex items-center p-3 h-30 z-[30]">
+            <NuxtLink to="/" class="relative z-[30]" draggable="false">
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-pink-400 -left-1 -top-0.5" />
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-white" />
             </NuxtLink>

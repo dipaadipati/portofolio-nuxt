@@ -165,7 +165,7 @@ const details = ref();
             </div>
             <div class="flex flex-col gap-3 mr-20 w-[500px] h-full" :class="activeIndex !== -1 ? 'z-[21]' : 'z-[60]'"
                 ref="items">
-                <div v-for="(project, idx) in projects" :key="`item-${idx}`" :ref="`item-${idx}`" class="h-1/6 relative text-black flex justify-center items-center bg-opacity-50
+                <div v-for="(project, idx) in projects" :key="`item-${idx}`" :ref="`item-${idx}`" class="overflow-y-auto h-1/6 relative text-black flex justify-center items-center bg-opacity-50
                     rounded-xl" :class="{
                         'bg-slate-500': itemActive === idx && permItemActive !== idx,
                         'bg-white': itemActive !== idx && permItemActive !== idx,
