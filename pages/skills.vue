@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { gsap } from 'gsap'
+import menuSound from '~/assets/sounds/navigation.wav'
+import outSound from '~/assets/sounds/out.wav'
 definePageMeta({
     pageTransition: {
         name: 'no-slide',
@@ -29,6 +31,15 @@ const handleResize = () => {
     }, 100)
 }
 
+const isHover = ref(false);
+
+watch(isHover, (newValue) => {
+    if (newValue) {
+        const audio = new Audio(menuSound);
+        audio.play();
+    }
+});
+
 onMounted(() => {
     checkMobile()
     window.addEventListener('resize', handleResize)
@@ -38,6 +49,11 @@ onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
     if (resizeTimeout) clearTimeout(resizeTimeout)
 })
+
+const backSound = () => {
+    const audio = new Audio(outSound);
+    audio.play();
+}
 </script>
 
 <template>
@@ -62,7 +78,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="flex items-center p-3 h-30 z-20">
-            <NuxtLink to="/" class="relative z-20" draggable="false">
+            <NuxtLink :onClick="backSound" to="/" class="relative z-20" draggable="false">
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-pink-400 -left-1 -top-0.5" />
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-white" />
             </NuxtLink>
@@ -90,7 +106,8 @@ onUnmounted(() => {
 
                 <!-- Frontend -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-pink-200 
-                    hover:border-pink-400 hover:shadow-lg transition-all">
+                    hover:border-pink-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-pink-500 mb-2">Frontend</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         HTML, CSS, JavaScript, TypeScript, Vue.js, React, Nuxt.js, Next.js, Svelte
@@ -99,7 +116,8 @@ onUnmounted(() => {
 
                 <!-- Backend -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-blue-200 
-                    hover:border-blue-400 hover:shadow-lg transition-all">
+                    hover:border-blue-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-blue-500 mb-2">Backend</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         Node.js, Express, PHP, Laravel, CodeIgniter, Golang
@@ -108,7 +126,8 @@ onUnmounted(() => {
 
                 <!-- Database -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-pink-200 
-                    hover:border-pink-400 hover:shadow-lg transition-all">
+                    hover:border-pink-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-pink-500 mb-2">Database</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         MySQL, PostgreSQL, NoSQL
@@ -117,7 +136,8 @@ onUnmounted(() => {
 
                 <!-- API -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-blue-200 
-                    hover:border-blue-400 hover:shadow-lg transition-all">
+                    hover:border-blue-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-blue-500 mb-2">API Development</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         RESTful APIs, Third-party Integration
@@ -126,7 +146,8 @@ onUnmounted(() => {
 
                 <!-- Cloud -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-pink-200 
-                    hover:border-pink-400 hover:shadow-lg transition-all">
+                    hover:border-pink-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-pink-500 mb-2">Cloud & Deploy</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         AWS, Azure, Vercel
@@ -135,7 +156,8 @@ onUnmounted(() => {
 
                 <!-- Tools -->
                 <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-lg border border-blue-200 
-                    hover:border-blue-400 hover:shadow-lg transition-all">
+                    hover:border-blue-400 hover:shadow-lg transition-all cursor-default" @touchstart="isHover = true"
+                    @mouseover="isHover = true" @mouseleave="isHover = false">
                     <h3 class="text-xs md:text-sm font-bold text-blue-500 mb-2">Tools</h3>
                     <p class="text-[8px] md:text-xs text-gray-600">
                         Git, Docker, CI/CD

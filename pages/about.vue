@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { gsap } from 'gsap'
+import outSound from '~/assets/sounds/out.wav'
 definePageMeta({
     pageTransition: {
         name: 'no-slide',
@@ -49,6 +50,11 @@ onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
     if (resizeTimeout) clearTimeout(resizeTimeout)
 })
+
+const backSound = () => {
+    const audio = new Audio(outSound);
+    audio.play();
+}
 </script>
 
 <template>
@@ -73,7 +79,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="flex items-center p-3 h-30 z-[30]">
-            <NuxtLink to="/" class="relative z-[30]" draggable="false">
+            <NuxtLink :onClick="backSound" to="/" class="relative z-[30]" draggable="false">
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-pink-400 -left-1 -top-0.5" />
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-white" />
             </NuxtLink>
@@ -95,7 +101,8 @@ onUnmounted(() => {
 
             <h1 class="text-2xl md:text-5xl font-bold mb-6 md:mb-10">About Me</h1>
 
-            <div class="text-[10px] md:text-lg text-start *:text-justify w-screen px-10 md:p-0 md:w-[500px] space-y-4">
+            <div
+                class="text-[10px] md:text-lg text-start *:text-justify w-screen px-10 md:p-0 md:w-[500px] space-y-4 font-sans">
                 <p>
                     Hello! My name is <b>M. Adipati Rezkya</b>, but you can call me <b>Adipati</b>.
                     I am a passionate web developer with a love for creating dynamic and responsive web applications.

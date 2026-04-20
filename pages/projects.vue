@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useTemplateRef, onMounted } from 'vue';
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import menuSound from '~/assets/sounds/navigation.wav'
+import outSound from '~/assets/sounds/out.wav'
 definePageMeta({
     pageTransition: {
         name: 'no-slide',
@@ -76,6 +78,13 @@ const activeIndex = computed(() => {
     return itemActive.value !== -1 ? itemActive.value : permItemActive.value;
 });
 
+watch(activeIndex, (newValue) => {
+    if (typeof newValue === 'number' && newValue !== -1) {
+        const audio = new Audio(menuSound);
+        audio.play();
+    }
+});
+
 const activeDetail = ref(null);
 const showSvg = computed(() => {
     return itemActive.value !== -1;
@@ -83,6 +92,11 @@ const showSvg = computed(() => {
 
 const items = ref();
 const details = ref();
+
+const backSound = () => {
+    const audio = new Audio(outSound);
+    audio.play();
+}
 
 </script>
 
@@ -175,7 +189,7 @@ const details = ref();
                     <span class="z-22 text-3xl p-10 cursor-default">{{ project.name }}</span>
                 </div>
             </div>
-            <NuxtLink to="/" class="relative z-20" draggable="false">
+            <NuxtLink :onClick="backSound" to="/" class="relative z-20" draggable="false">
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-pink-400 -right-1 -top-0.5" />
                 <font-awesome :icon="faTimes" class="absolute text-6xl text-white right-0" />
             </NuxtLink>

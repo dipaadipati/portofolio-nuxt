@@ -16,6 +16,15 @@ useSeoMeta({
 </template>
 
 <style>
+@font-face {
+  font-family: Rodin Pro Bold;
+  src: url(./fonts/Rodin%20Pro%20UB.otf) format("opentype");
+}
+
+body {
+  font-family: 'Rodin Pro Bold';
+}
+
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,

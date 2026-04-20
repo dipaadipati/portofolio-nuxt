@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { VPdfViewer } from '@vue-pdf-viewer/viewer'
 import VPdfAnnotationPlugin from "@vue-pdf-viewer/annotation";
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import outSound from '~/assets/sounds/out.wav'
 definePageMeta({
     pageTransition: {
         name: 'no-slide',
@@ -15,6 +16,11 @@ const pdfSrc = ref('/cv.pdf')
 const annotationPlugin = VPdfAnnotationPlugin({
     highlight: false, // Disable and hide highlight tool
 });
+
+const backSound = () => {
+    const audio = new Audio(outSound);
+    audio.play();
+}
 </script>
 
 <template>
@@ -30,7 +36,7 @@ const annotationPlugin = VPdfAnnotationPlugin({
             </div>
         </ClientOnly>
         <div class="absolute top-0 right-10 xl:right-20 flex items-center p-3 z-20">
-            <NuxtLink to="/" class="relative z-20" draggable="false">
+            <NuxtLink :onClick="backSound" to="/" class="relative z-20" draggable="false">
                 <font-awesome :icon="faTimes" class="absolute text-4xl xl:text-6xl text-pink-400 left-1 -top-0.5" />
                 <font-awesome :icon="faTimes" class="absolute text-4xl xl:text-6xl text-white" />
             </NuxtLink>
