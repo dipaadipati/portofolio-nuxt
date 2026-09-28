@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The site's own visual language, nothing new: pink-400 offset down-right behind a
+       gray-800 plate (every card does this), white content on top, sharp corners because
+       every card has them. The A is pathed, not typeset, so it renders the same in every
+       browser without depending on a font. -->
+  <rect width="64" height="64" fill="#f472b6"/>
+  <rect width="58" height="58" fill="#1f2937"/>
+  <path fill="#fff" fill-rule="evenodd"
+        d="M29 9 L52 49 L6 49 Z
+           M29 28 L23.5 36 L34.5 36 Z
+           M23.5 41 L34.5 41 L43 49 L15 49 Z"/>
+</svg>
