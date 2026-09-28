@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTemplateRef, onMounted } from 'vue';
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import menuSound from '~/assets/sounds/navigation.wav'
 import outSound from '~/assets/sounds/out.wav'
+import { projects, type Project } from '~/data/projects'
+
 definePageMeta({
     pageTransition: {
         name: 'no-slide',
@@ -10,199 +11,118 @@ definePageMeta({
     }
 })
 
-const projects = [
-    {
-        icon: 'ganesha.png',
-        name: "Ganesha Fitness",
-        description: `A website for a fitness center with AI-powered personal trainer feature,<br>
-    • Developed with PHP & MySQL (Laravel framework as backend)<br>
-    • Used Next.js and Tailwind CSS for frontend.<br>
-    • Used OpenAI API for AI personal trainer feature.`,
-        projectLink: 'https://ganeshafitness.id/'
-    },
-    {
-        name: "Twisted Music",
-        description: `A music player design referenced by Youtube Music website,<br>
-    • Developed with Node JS, Vite, and React.js.<br>
-    • Used Tailwind CSS for styling the whole app.<br>
-    • Used FontAwesome for some icons.<br>
-    • Some features are still under development.`,
-        projectLink: 'https://twisted-music.vercel.app/'
-    },
-    {
-        name: "Instabram",
-        description: `A web design only for learning Tailwind CSS referenced by Instagram app,<br>
-    • Developed with Node JS, Next.js, and React.js.<br>
-    • Used Tailwind CSS for styling the whole app.<br>
-    • Used FontAwesome for some icons.<br>
-    • Some features are still under development.`,
-        projectLink: 'https://instabram.vercel.app/'
-    },
-    {
-        name: "Svelte CRUD",
-        description: `A  simple CRUD for learning Svelte framework,<br>
-    • Developed with Node JS, Svelte, and Drizzle ORM.<br>
-    • Used Tailwind CSS for styling the whole app.`,
-        projectLink: 'https://crud-svelte-ochre.vercel.app/'
-    },
-    {
-        name: "Apotek Store",
-        description: `A website for pharmacy sales and transactions,<br>
-    • Developed with PHP & MySQL (Laravel framework)<br>
-    • Used Bootstrap and FontAwesome Libraries.<br>
-    • Used API as CRUD engine.`
-    },
-    {
-        name: "Peduli Diri",
-        description: `A website to consult victims of bullying with a psychologist via live chat,<br>
-    • Developed with PHP & MySQL (Laravel framework)<br>
-    • Used Bootstrap and FontAwesome Libraries.<br>
-    • Used API for live chat engine.`
-    },
-];
-
-const itemActive = ref(-1);
-const permItemActive = ref(0);
-
-// const activeIndex = computed({
-//     get() {
-//         return itemActive.value !== -1 ? itemActive.value : permItemActive.value;
-//     },
-//     set(newValue) {
-//         itemActive.value = newValue;
-//         permItemActive.value = newValue;
-//         return newValue;
-//     }
-// });
-const activeIndex = computed(() => {
-    return itemActive.value !== -1 ? itemActive.value : permItemActive.value;
-});
-
-watch(activeIndex, (newValue) => {
-    if (typeof newValue === 'number' && newValue !== -1) {
-        const audio = new Audio(menuSound);
-        audio.play();
-    }
-});
-
-const activeDetail = ref(null);
-const showSvg = computed(() => {
-    return itemActive.value !== -1;
-});
-
-const items = ref();
-const details = ref();
-
 const backSound = () => {
     const audio = new Audio(outSound);
     audio.play();
 }
 
+// Hover tick on the cards, same as components/MenuButton.vue. Delete this block if it gets noisy.
+const hovered = ref(-1)
+watch(hovered, (value) => {
+    if (value !== -1) {
+        const audio = new Audio(menuSound);
+        audio.play();
+    }
+})
+
+const status = (project: Project) => project.link
+    ? (project.link.href.includes('github.com') ? 'Repo' : 'Live')
+    : 'Private'
+
+const statusClass = (project: Project) => !project.link
+    ? 'bg-gray-200 text-gray-500'
+    : (project.link.href.includes('github.com') ? 'bg-blue-500 text-white' : 'bg-pink-400 text-white')
 </script>
 
 <template>
-    <div class="md:p-10 h-full z-10">
-        <div class="absolute bottom-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2 rotate-[35deg]">
+    <div class="p-10 h-full z-10 flex flex-col">
+        <!-- Tilted slab, rotated page heading and the dark wash. All three are decoration:
+             pointer-events-none keeps them out of the way of the cards and the footer icons. -->
+        <div
+            class="absolute bottom-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2 rotate-[35deg] z-0 pointer-events-none">
             <div class="relative">
-                <div
-                    class="absolute transform -translate-x-1/2 -translate-y-1/2 w-[1300px] h-[1300px] bg-gray-800 rounded-xl">
+                <div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-[1300px] h-[1300px] bg-gray-800 rounded-xl">
                 </div>
             </div>
         </div>
-        <div class="absolute top-1/2 right-0 transform translate-x-1/3 -translate-y-1/2 rotate-[270deg] z-15">
-            <div class="relative">
-                <h1 class="text-[20vh] font-bold text-gray-300 cursor-default select-none z-15">PROJECTS</h1>
-            </div>
+        <div
+            class="absolute top-1/2 right-0 transform translate-x-1/3 -translate-y-1/2 rotate-[270deg] z-0 pointer-events-none">
+            <h1 class="text-[20vh] font-bold text-gray-300 cursor-default select-none">PROJECTS</h1>
         </div>
-        <div class="absolute top-1/2 left-1/2 -transform translate-x-1/2 -translate-y-1/2 z-16 opacity-0"
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 opacity-0 pointer-events-none"
             v-gsap.to="{ opacity: '40%', duration: 1 }">
             <div class="relative">
-                <div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-[110vw] h-[110vh] bg-gray-800">
-                </div>
+                <div class="absolute transform -translate-x-1/2 -translate-y-1/2 w-[110vw] h-[110vh] bg-gray-800"></div>
             </div>
         </div>
-        <div class="relative flex justify-end p-3 h-full w-full">
-            <div class="relative w-full h-full" ref="details" v-gsap.from="{ opacity: '0', duration: 0.5 }">
-                <div v-for="(detail, index) in projects" :key="`detail-${index}`"
-                    :class="`absolute flex flex-col ${activeIndex === index ? 'z-[22]' : 'z-0'} pr-20 w-full h-full`"
-                    :ref="`detail-${index}`">
-                    <div class="hidden md:block h-full w-full">
-                        <div class="p-3 h-full relative text-black flex flex-col xl:flex-row justify-center items-center bg-white transition-opacity duration-[2ms] rounded-xl z-20"
-                            v-show="activeIndex === index"
-                            :class="activeIndex === index ? 'bg-opacity-50' : 'bg-opacity-0'">
-                            <div class="relative" v-show="detail.icon">
-                                <NuxtImg :src="`/icons/${detail.icon}`"
-                                    class="absolute rounded-xl top-0 z-20 lg:w-[150px] lg:h-[150px] object-cover"
-                                    draggable="false" />
-                                <NuxtImg :src="`/icons/${detail.icon}`"
-                                    class="z-18 rounded-xl picture-shadow-dark lg:w-[150px] lg:h-[150px] object-cover"
-                                    draggable="false" />
-                            </div>
-                            <p class="text-[10px] md:text-[13px] lg:text-2xl p-10" v-html="detail.description"></p>
-                            <div class="absolute right-0 bottom-0 m-5 mb-10" v-show="detail.projectLink">
-                                <a :href="detail.projectLink" target="_blank"
-                                    class="text-md lg:text-4xl border-2 border-black rounded-xl p-4 hover:bg-gray-600">Go
-                                    to
-                                    Website</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block md:hidden w-[90dvw] h-full absolute" v-show="permItemActive !== -1">
-                        <div class="h-full w-full relative text-black flex flex-col xl:flex-row justify-center items-center bg-white
-                        transition-opacity duration-[2ms] rounded-xl z-20" v-show="activeIndex === index"
-                            :class="activeIndex === index ? 'bg-opacity-90' : 'bg-opacity-0'">
-                            <div class="absolute top-0 left-[50px]">
-                                <button @click="itemActive = -1; permItemActive = -1;" class="relative z-20"
-                                    draggable="false">
-                                    <font-awesome :icon="faTimes"
-                                        class="absolute text-6xl text-pink-400 -right-1 -top-0.5" />
-                                    <font-awesome :icon="faTimes" class="absolute text-6xl text-black right-0" />
-                                </button>
-                            </div>
-                            <div class="relative" v-show="detail.icon">
-                                <NuxtImg :src="`/icons/${detail.icon}`"
-                                    class="absolute rounded-xl top-0 z-20 lg:w-[300px] lg:h-[300px] object-cover"
-                                    draggable="false" />
-                                <NuxtImg :src="`/icons/${detail.icon}`"
-                                    class="z-18 rounded-xl picture-shadow-dark lg:w-[300px] lg:h-[300px] object-cover"
-                                    draggable="false" />
-                            </div>
-                            <p class="text-md p-10" v-html="detail.description"></p>
-                            <div class="absolute right-0 bottom-0 m-5 mb-10" v-show="detail.projectLink">
-                                <a :href="detail.projectLink" target="_blank"
-                                    class="text-md border-2 border-black rounded-xl p-4 hover:bg-gray-600">Go to
-                                    Website</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col gap-3 mr-20 w-[500px] h-full" :class="activeIndex !== -1 ? 'z-[21]' : 'z-[60]'"
-                ref="items">
-                <div v-for="(project, idx) in projects" :key="`item-${idx}`" :ref="`item-${idx}`" class="overflow-y-auto h-1/6 relative text-black flex justify-center items-center bg-opacity-50
-                    rounded-xl" :class="{
-                        'bg-slate-500': itemActive === idx && permItemActive !== idx,
-                        'bg-white': itemActive !== idx && permItemActive !== idx,
-                        'bg-red-300': permItemActive === idx,
-                    }" @click="permItemActive === itemActive ? permItemActive = -1 : permItemActive = idx"
-                    @mouseover="itemActive = idx" @mouseleave="itemActive = -1">
-                    <span class="z-22 text-3xl p-10 cursor-default">{{ project.name }}</span>
-                </div>
-            </div>
-            <NuxtLink :onClick="backSound" to="/" class="relative z-20" draggable="false">
-                <font-awesome :icon="faTimes" class="absolute text-6xl text-pink-400 -right-1 -top-0.5" />
-                <font-awesome :icon="faTimes" class="absolute text-6xl text-white right-0" />
+
+        <!-- Close -->
+        <div class="flex items-center p-3 z-30 relative shrink-0">
+            <NuxtLink :onClick="backSound" to="/" class="relative z-30 block w-9 h-9 xl:w-16 xl:h-16"
+                draggable="false" aria-label="Back to home">
+                <font-awesome :icon="faTimes" class="absolute text-4xl xl:text-6xl text-pink-400 left-1 -top-0.5" />
+                <font-awesome :icon="faTimes" class="absolute text-4xl xl:text-6xl text-white" />
             </NuxtLink>
+        </div>
+
+        <!-- One scroll area for the whole grid, so there are no nested scrollbars. The wrapper
+             stops 80px short of the bottom (p-10 + pb-10) — exactly the footer's height — and
+             is pointer-events-none so its own edge cannot swallow clicks on the footer icons. -->
+        <div class="flex-1 min-h-0 relative z-20 pb-10 pointer-events-none">
+            <!-- overflow-x-hidden matters: the pink duplicates stick out 8px past the last
+                 column, and a lone overflow-y makes the browser compute overflow-x as auto. -->
+            <div class="h-full overflow-y-auto overflow-x-hidden pointer-events-auto opacity-0 pb-3"
+                v-gsap.to="{ opacity: 100, duration: 0.5 }">
+                <!-- pr-2 gives the last column's 8px pink duplicate room to show instead of
+                     being clipped by the scroll area's edge. -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 pr-2">
+                    <!-- A project without a link renders an <a> with no href: it stays inert
+                         (no pointer cursor, no activation) without a second template. -->
+                    <a v-for="(project, index) in projects" :key="project.title" :href="project.link?.href"
+                        :target="project.link ? '_blank' : undefined" rel="noopener" draggable="false"
+                        class="group relative block h-full" @mouseover="hovered = index" @mouseleave="hovered = -1">
+                        <div
+                            class="absolute inset-0 translate-x-2 translate-y-2 rotate-[-1deg] bg-pink-300 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3">
+                        </div>
+                        <div class="relative h-full bg-white p-5 md:p-6 flex flex-col">
+                            <div class="flex items-start justify-between gap-3">
+                                <span
+                                    class="text-3xl md:text-4xl font-bold text-gray-200 leading-none transition-colors group-hover:text-pink-200">
+                                    {{ String(index + 1).padStart(2, '0') }}
+                                </span>
+                                <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-wider px-2 py-1 shrink-0"
+                                    :class="statusClass(project)">
+                                    {{ status(project) }}
+                                </span>
+                            </div>
+
+                            <h2 class="text-base md:text-lg font-bold text-gray-800 leading-snug mt-3">
+                                {{ project.title }}
+                            </h2>
+                            <p class="text-[11px] md:text-xs text-gray-600 leading-relaxed mt-2 line-clamp-2">
+                                {{ project.desc }}
+                            </p>
+
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <span v-for="tech in project.stack" :key="tech"
+                                    class="text-[9px] md:text-[10px] px-1.5 py-0.5 bg-white border border-pink-200 text-gray-600">
+                                    {{ tech }}
+                                </span>
+                            </div>
+
+                            <div class="mt-auto pt-3 flex items-center justify-between gap-2 border-t border-pink-100">
+                                <span class="text-[9px] uppercase tracking-wider text-gray-400 font-bold truncate">
+                                    {{ project.tag }}
+                                </span>
+                                <span class="text-[10px] font-bold shrink-0"
+                                    :class="project.link ? 'text-pink-500 group-hover:text-blue-500' : 'text-gray-400'">
+                                    {{ project.link ? project.link.label : project.note }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
-
-<style scoped>
-.svg-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    /* Ensure SVG doesn't interfere with mouse events */
-}
-</style>
