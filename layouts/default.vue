@@ -249,9 +249,8 @@ onUnmounted(() => {
 
     <!-- Bottom Footer Section -->
     <div :class="[
-        'absolute bottom-0 left-0 right-0 h-16 md:h-20 pointer-events-none z-10',
-        'backdrop-blur-sm bg-gradient-to-t from-black/10 to-transparent',
-        isIndexPage ? 'block' : 'hidden md:block'
+        'absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-10',
+        'backdrop-blur-sm bg-gradient-to-t from-black/10 to-transparent'
     ]">
         <!-- Decorative Shapes -->
         <div class="absolute bottom-4 left-8 w-6 h-6 bg-pink-400 opacity-20 transform rotate-45
