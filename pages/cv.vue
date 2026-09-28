@@ -16,6 +16,21 @@ const backSound = () => {
 }
 
 const kicker = 'text-[9px] md:text-[10px] font-bold uppercase tracking-[0.18em] text-blue-500 mb-2'
+
+// The card only covers part of the page: it is 92vw wide, so there are gutters beside it —
+// 470px of them per side on a 1920 screen — and the footer band sits under it. A wheel in any
+// of those lands on chrome that has nothing to scroll, and the page then reads as completely
+// unscrollable. Listen on the window rather than on the card so every pixel of the viewport
+// scrolls the CV; anything already inside a scroll container is left to the browser.
+const cvBody = ref<HTMLElement | null>(null)
+const onWheel = (e: WheelEvent) => {
+    const el = cvBody.value
+    if (!el || (e.target as Element | null)?.closest?.('.overflow-y-auto')) return
+    el.scrollTop += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY
+}
+
+onMounted(() => window.addEventListener('wheel', onWheel))
+onUnmounted(() => window.removeEventListener('wheel', onWheel))
 </script>
 
 <template>
@@ -53,7 +68,7 @@ const kicker = 'text-[9px] md:text-[10px] font-bold uppercase tracking-[0.18em] 
                 <div class="absolute -left-3 top-3 w-full h-full rotate-[-1deg] bg-pink-300"></div>
 
                 <!-- Scrollable CV body -->
-                <div class="relative h-full overflow-y-auto bg-white text-gray-700 p-5 md:p-8">
+                <div ref="cvBody" class="relative h-full overflow-y-auto bg-white text-gray-700 p-5 md:p-8">
 
                     <!-- Header -->
                     <header

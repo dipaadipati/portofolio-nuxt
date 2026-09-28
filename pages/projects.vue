@@ -32,6 +32,20 @@ const status = (project: Project) => project.link
 const statusClass = (project: Project) => !project.link
     ? 'bg-gray-200 text-gray-500'
     : (project.link.href.includes('github.com') ? 'bg-blue-500 text-white' : 'bg-pink-400 text-white')
+
+// Same dead zone as the CV card: the grid stops 40px short of the bottom (the pb-10 that
+// keeps it clear of the footer) and the footer band sits under that, so a wheel down there
+// lands on chrome with nothing to scroll. Listen on the window so the whole viewport scrolls
+// the grid; anything already inside a scroll container is left to the browser.
+const grid = ref<HTMLElement | null>(null)
+const onWheel = (e: WheelEvent) => {
+    const el = grid.value
+    if (!el || (e.target as Element | null)?.closest?.('.overflow-y-auto')) return
+    el.scrollTop += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY
+}
+
+onMounted(() => window.addEventListener('wheel', onWheel))
+onUnmounted(() => window.removeEventListener('wheel', onWheel))
 </script>
 
 <template>
@@ -71,7 +85,7 @@ const statusClass = (project: Project) => !project.link
         <div class="flex-1 min-h-0 relative z-20 pb-10 pointer-events-none">
             <!-- overflow-x-hidden matters: the pink duplicates stick out 8px past the last
                  column, and a lone overflow-y makes the browser compute overflow-x as auto. -->
-            <div class="h-full overflow-y-auto overflow-x-hidden pointer-events-auto opacity-0 pb-3"
+            <div ref="grid" class="h-full overflow-y-auto overflow-x-hidden pointer-events-auto opacity-0 pb-3"
                 v-gsap.to="{ opacity: 100, duration: 0.5 }">
                 <!-- pr-2 gives the last column's 8px pink duplicate room to show instead of
                      being clipped by the scroll area's edge. -->
